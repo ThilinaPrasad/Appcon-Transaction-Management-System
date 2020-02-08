@@ -1,0 +1,138 @@
+/*SCROLL BAR CSS*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #01579b;
+    cursor: pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #0277bd;
+}
+
+/*LOGIN PAGE CSS*/
+
+.login-body {
+background-image: url('../assets/back_1.jpg');
+background-repeat: no-repeat;
+background-size: inherit;
+}
+.usr-img {
+    width: 250px;
+}
+
+.login-form{
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 25px;
+    position: relative;
+    top: 50vh;
+    transform: translateY(-50%);
+}
+
+.rounded-input{
+    border-radius: 25px;
+}
+
+.main-logo{
+    width: 150px;
+}
+
+/* HOME CSS */
+.home-logo{
+    margin-top: 20px;
+    width: 250px;
+}
+
+.home-body {
+    background-image: url('../assets/back_2.jpg');
+    background-repeat: no-repeat;
+    background-size: inherit;
+}
+
+.floating-btn{
+    color: white;
+    background-color: #66bb6a;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.floating-btn:hover{
+    background-color: #81c784;
+}
+
+tbody {
+    max-height: 200px;
+    overflow-y: scroll!important;
+}
+
+tr {
+    cursor: pointer;
+}
+
+td, th {
+    padding: 5px!important;
+}
+
+#custom-search-input{
+    padding: 8px;
+    border: solid 1px #E4E4E4;
+    background-color: #fff;
+    border-radius: 25px;
+    transform: scale(0.7);
+}
+
+#custom-search-input:focus-within{
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.15);
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button, #custom-search-input select{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+}
+
+#custom-search-input select{
+    padding: 0px;
+}
+
+#custom-search-input select option{
+    font-size: 14px;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.features{
+    color: gray;
+}
+
+
+

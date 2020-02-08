@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sierra | Accounts Management System</title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/fontawesome/css/all.min.css"/>
+    <link rel="stylesheet" href="css/confirm-js/jquery-confirm.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body class="home-body">
+
+<button class="floating-btn btn" data-toggle="tooltip" data-placement="left" title="Add new record">
+    <i class="fas fa-plus-circle"></i></button>
+
+<div class="ml-2 mr-2">
+    <img src="assets/logo.png" class="mx-auto d-block main-logo home-logo mb-2 mt-3">
+    <h4 class="text-center">Daily Accounts Details</h4>
+
+    <div id="custom-search-input">
+        <div class="input-group col-md-12">
+            <input type="text" class="form-control input-lg"
+                   placeholder="Search by date" id="search-query"/>
+
+            <span class="input-group-btn">
+                        <select class="btn btn-info btn-lg detected-lang" id="search-filter">
+                          <option value="date">date</option>
+                          <option value="client">client</option>
+                            <option value="project">project</option>
+                            <option value="description">description</option>
+                            <option value="amount">amount</option>
+                            <option value="person">person</option>
+                        </select>
+                    </span>
+            <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                          <i class="fas fa-search"></i>
+                        </button>
+                    </span>
+        </div>
+    </div>
+
+    <table class="table table-hover table-light data-table mt-1">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">Date</th>
+            <th scope="col">Client</th>
+            <th scope="col">Project</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Person</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr tabindex="0" class="text-center" data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"
+            data-content='
+<div class="btn-group" role="group">
+  <button type="button" class="btn btn-success btn-sm" onclick="editRow(1)"><i class="fas fa-edit"></i></button>
+  <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(1)"><i class="fas fa-trash-alt"></i></button>
+</div>
+'>
+            <td>2/8/2020</td>
+            <td>Sierra</td>
+            <td>Everest</td>
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Pasan</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<script>if (typeof module === 'object') {
+    window.module = module;
+    module = undefined;
+}
+</script>
+<script src="./js/jquery-3.4.1.slim.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap/js/bootstrap.js"></script>
+<script src="./css/fontawesome/js/all.min.js"></script>
+<script src="./js/confirm-js/jquery-confirm.js"></script>
+<script src="./js/app.js"></script>
+
+</body>
+</html>
