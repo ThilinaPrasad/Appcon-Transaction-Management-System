@@ -1,14 +1,14 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, Menu} = require('electron');
+const {app, BrowserWindow, Menu, globalShortcut} = require('electron');
 const path = require('path');
-
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+        nodeIntegration: true
     }
   });
 
@@ -75,4 +75,9 @@ const mainMenuTemplate =  [
 require('electron-reload')(__dirname, {
   // Note that the path to electron may vary according to the main file
   electron: require(`${__dirname}/node_modules/electron`)
+});
+
+app.whenReady().then(() => {
+  globalShortcut.register('CommandOrControl+A', () => {
+  });
 });

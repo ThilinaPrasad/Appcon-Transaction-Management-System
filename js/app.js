@@ -56,3 +56,9 @@ function deleteRow(id) {
         }
     });
 }
+
+function loadData() {
+    $.get("https://script.google.com/macros/s/AKfycbwPP5zBQrAUUPuoMNuGk-W-rvFloILZnz2L6NPUuZ8_6r5Y8kO3/exec?action=read", function(data, status){
+        console.log(JSON.parse(data));
+    });
+}

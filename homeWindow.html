@@ -9,7 +9,9 @@
 </head>
 <body class="home-body">
 
-<button class="floating-btn btn" data-toggle="tooltip" data-placement="left" title="Add new record">
+<button class="floating-btn btn"
+        data-toggle="modal" data-target="#addRowModal"
+>
     <i class="fas fa-plus-circle"></i></button>
 
 <div class="ml-2 mr-2">
@@ -37,14 +39,14 @@
                         </button>
                     </span>
         </div>
-    </div>
-
+    </div >
     <table class="table table-hover table-light data-table mt-1">
         <thead>
         <tr class="text-center">
             <th scope="col">Date</th>
             <th scope="col">Client</th>
             <th scope="col">Project</th>
+            <th scope="col">Category</th>
             <th scope="col">Description</th>
             <th scope="col">Amount</th>
             <th scope="col">Person</th>
@@ -62,15 +64,60 @@
             <td>2/8/2020</td>
             <td>Sierra</td>
             <td>Everest</td>
+            <td>Credit</td>
             <td>Description</td>
             <td>Amount</td>
             <td>Pasan</td>
         </tr>
+
         </tbody>
     </table>
 
 </div>
 
+<div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalTitle">Add Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+<!--                    <label for="add-date" class="col-form-label-sm">Date</label>-->
+                    <input type="date" class="form-control form-control-sm" id="add-date" placeholder="Date">
+                </div>
+                <div class="form-group">
+<!--                    <label for="add-client" class="col-form-label-sm">Client</label>-->
+                    <input type="text" class="form-control form-control-sm" id="add-client" placeholder="Client">
+                </div>
+                <div class="form-group">
+<!--                    <label for="add-project" class="col-form-label-sm">Project</label>-->
+                    <input type="text" class="form-control form-control-sm" id="add-project" placeholder="Project">
+                </div>
+                <div class="form-group">
+<!--                    <label for="add-description" class="col-form-label-sm">Description</label>-->
+                    <textarea class="form-control form-control-sm" id="add-description" placeholder="Description"></textarea>
+                </div>
+                <div class="form-group">
+<!--                    <label for="add-amount" class="col-form-label-sm">Amount</label>-->
+                    <input type="number" class="form-control form-control-sm" id="add-amount" placeholder="Amount" min="0">
+                </div>
+                <div class="form-group">
+<!--                    <label for="add-person" class="col-form-label-sm">Person</label>-->
+                    <input type="text" class="form-control form-control-sm" id="add-person" placeholder="Person">
+                </div>
+
+                <div class="btn-group btn-group-sm float-right" role="group">
+                <button type="button" class="btn btn-success btn-sm"><i class="fas fa-save mr-1"></i>Save</button>
+                <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-times-circle mr-1"></i>Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>if (typeof module === 'object') {
     window.module = module;
@@ -78,11 +125,16 @@
 }
 </script>
 <script src="./js/jquery-3.4.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="./js/popper.min.js"></script>
 <script src="./js/bootstrap/js/bootstrap.js"></script>
 <script src="./css/fontawesome/js/all.min.js"></script>
 <script src="./js/confirm-js/jquery-confirm.js"></script>
 <script src="./js/app.js"></script>
+<script>
+    const {ipcRenderer} = require('electron');
+    ipcRenderer.send('toggleAddRowModal');
+</script>
 
 </body>
 </html>
