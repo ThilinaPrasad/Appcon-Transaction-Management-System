@@ -21,13 +21,14 @@
     <div id="custom-search-input">
         <div class="input-group col-md-12">
             <input type="text" class="form-control input-lg"
-                   placeholder="Search by date" id="search-query"/>
+                   placeholder="Search by date" id="search-query" onkeyup="filterData()"/>
 
             <span class="input-group-btn">
-                        <select class="btn btn-info btn-lg detected-lang" id="search-filter">
+                        <select class="btn btn-info btn-lg detected-lang" id="search-filter" onchange="changeFilterColumn()">
                           <option value="date">date</option>
                           <option value="client">client</option>
                             <option value="project">project</option>
+                            <option value="category">category</option>
                             <option value="description">description</option>
                             <option value="amount">amount</option>
                             <option value="person">person</option>
@@ -39,37 +40,40 @@
                         </button>
                     </span>
         </div>
-    </div >
+    </div>
     <table class="table table-hover table-light data-table mt-1">
         <thead>
         <tr class="text-center">
-            <th scope="col">Date</th>
-            <th scope="col">Client</th>
-            <th scope="col">Project</th>
-            <th scope="col">Category</th>
-            <th scope="col">Description</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Person</th>
+            <th scope="col" class="search-by-date search-active-col">Date</th>
+            <th scope="col" class="search-by-client">Client</th>
+            <th scope="col" class="search-by-project">Project</th>
+            <th scope="col" class="search-by-category">Category</th>
+            <th scope="col" class="search-by-description">Description</th>
+            <th scope="col" class="search-by-amount">Amount(Rs.)</th>
+            <th scope="col" class="search-by-person">Person</th>
 
         </tr>
         </thead>
-        <tbody>
-        <tr tabindex="0" class="text-center" data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"
-            data-content='
-<div class="btn-group" role="group">
-  <button type="button" class="btn btn-success btn-sm" onclick="editRow(1)"><i class="fas fa-edit"></i></button>
-  <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(1)"><i class="fas fa-trash-alt"></i></button>
-</div>
-'>
-            <td>2/8/2020</td>
-            <td>Sierra</td>
-            <td>Everest</td>
-            <td>Credit</td>
-            <td>Description</td>
-            <td>Amount</td>
-            <td>Pasan</td>
+        <tbody id="data-table-body">
+<!--        <tr tabindex="0" class="text-center" data-toggle="popover" data-placement="left" data-trigger="focus"-->
+<!--            data-html="true"-->
+<!--            data-content='-->
+<!--        <div class="btn-group" role="group">-->
+<!--          <button type="button" class="btn btn-success btn-sm" onclick="editRow(1)"><i class="fas fa-edit"></i></button>-->
+<!--          <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(1)"><i class="fas fa-trash-alt"></i></button>-->
+<!--        </div>-->
+<!--        '>-->
+<!--            <td>2/8/2020</td>-->
+<!--            <td>Sierra</td>-->
+<!--            <td>Everest</td>-->
+<!--            <td>Credit</td>-->
+<!--            <td>Description</td>-->
+<!--            <td>Amount</td>-->
+<!--            <td>Pasan</td>-->
+<!--        </tr>-->
+        <tr class="text-center" id="no-data-available-row">
+            <td colspan="7">No data Available!</td>
         </tr>
-
         </tbody>
     </table>
 
@@ -86,33 +90,36 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-<!--                    <label for="add-date" class="col-form-label-sm">Date</label>-->
+                    <!--                    <label for="add-date" class="col-form-label-sm">Date</label>-->
                     <input type="date" class="form-control form-control-sm" id="add-date" placeholder="Date">
                 </div>
                 <div class="form-group">
-<!--                    <label for="add-client" class="col-form-label-sm">Client</label>-->
+                    <!--                    <label for="add-client" class="col-form-label-sm">Client</label>-->
                     <input type="text" class="form-control form-control-sm" id="add-client" placeholder="Client">
                 </div>
                 <div class="form-group">
-<!--                    <label for="add-project" class="col-form-label-sm">Project</label>-->
+                    <!--                    <label for="add-project" class="col-form-label-sm">Project</label>-->
                     <input type="text" class="form-control form-control-sm" id="add-project" placeholder="Project">
                 </div>
                 <div class="form-group">
-<!--                    <label for="add-description" class="col-form-label-sm">Description</label>-->
-                    <textarea class="form-control form-control-sm" id="add-description" placeholder="Description"></textarea>
+                    <!--                    <label for="add-description" class="col-form-label-sm">Description</label>-->
+                    <textarea class="form-control form-control-sm" id="add-description"
+                              placeholder="Description"></textarea>
                 </div>
                 <div class="form-group">
-<!--                    <label for="add-amount" class="col-form-label-sm">Amount</label>-->
-                    <input type="number" class="form-control form-control-sm" id="add-amount" placeholder="Amount" min="0">
+                    <!--                    <label for="add-amount" class="col-form-label-sm">Amount</label>-->
+                    <input type="number" class="form-control form-control-sm" id="add-amount" placeholder="Amount"
+                           min="0">
                 </div>
                 <div class="form-group">
-<!--                    <label for="add-person" class="col-form-label-sm">Person</label>-->
+                    <!--                    <label for="add-person" class="col-form-label-sm">Person</label>-->
                     <input type="text" class="form-control form-control-sm" id="add-person" placeholder="Person">
                 </div>
 
                 <div class="btn-group btn-group-sm float-right" role="group">
-                <button type="button" class="btn btn-success btn-sm"><i class="fas fa-save mr-1"></i>Save</button>
-                <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-times-circle mr-1"></i>Reset</button>
+                    <button type="button" class="btn btn-success btn-sm"><i class="fas fa-save mr-1"></i>Save</button>
+                    <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-times-circle mr-1"></i>Reset
+                    </button>
                 </div>
             </div>
         </div>
@@ -130,6 +137,7 @@
 <script src="./js/bootstrap/js/bootstrap.js"></script>
 <script src="./css/fontawesome/js/all.min.js"></script>
 <script src="./js/confirm-js/jquery-confirm.js"></script>
+<script src="./js/db_operations.js"></script>
 <script src="./js/app.js"></script>
 <script>
     const {ipcRenderer} = require('electron');

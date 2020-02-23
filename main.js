@@ -12,6 +12,9 @@ function createWindow () {
     }
   });
 
+  // maximize the window
+  mainWindow.maximize();
+
   // and load the index.html of the app.
   mainWindow.loadFile('homeWindow.html');
 

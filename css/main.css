@@ -134,5 +134,11 @@ td, th {
     color: gray;
 }
 
+.search-active-col{
+    background-color: rgba(44,51,140,1);
+    color: white;
+}
 
-
+.search-active-data{
+    background-color: rgba(44,51,140,0.1);
+}
