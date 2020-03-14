@@ -28,3 +28,28 @@ function loadData() {
 
     });
 }
+
+function addDataRow(dataString) {
+    $.get(END_POINT_URL+'insert&'+dataString, function (data, status) {
+        const status_data = JSON.parse(data);
+        if(status_data.response_status === 200){
+            $.alert({
+                theme: 'modern',
+                icon: 'fa-check-circle-o',
+                title: 'Success!',
+                content: "Data row added successfully!",
+                animationBounce: 2.5,
+                type: 'green',
+            });
+        }else {
+            $.alert({
+                theme: 'modern',
+                icon: 'fa-times-circle-o',
+                title: 'Error!',
+                content: "Error happened while data adding, Please try again later!",
+                animationBounce: 2.5,
+                type: 'red',
+            });
+        }
+    });
+}
