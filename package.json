@@ -2,10 +2,11 @@
   "name": "accounts-management-system",
   "version": "1.0.0",
   "description": "A minimal Electron application",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "rebuild": "electron-rebuild -f -w sqlite3"
+    "build-installer": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -15,16 +16,28 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "Thilina Prasad",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^8.0.0",
-    "electron-rebuild": "^1.10.0"
+    "electron-builder": "^22.4.1",
+    "electron-installer-zip": "^0.1.2",
+    "electron-packager": "^14.2.1",
+    "electron-rebuild": "^1.10.1",
+    "electron-winstaller": "^4.0.0"
   },
   "dependencies": {
-    "@popperjs/core": "^2.0.5",
     "electron-reload": "^1.5.0",
-    "knex": "^0.20.8",
-    "sqlite3": "^4.1.1"
+    "@popperjs/core": "^2.1.0",
+    "knex": "^0.20.11"
+  },
+  "build": {
+    "appId": "com.sierra.ams",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/build/icon.ico"
+    },
+    "productName": "Sierra Account Management System",
+    "asar": false
   }
 }

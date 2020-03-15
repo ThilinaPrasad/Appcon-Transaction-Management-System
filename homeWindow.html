@@ -10,9 +10,13 @@
 <body class="home-body">
 
 <button class="floating-btn btn"
-        data-toggle="modal" data-target="#addRowModal"
+        data-toggle="modal" data-target="#addRowModal" title="Add data row" onclick="addDataModel()"
 >
-    <i class="fas fa-plus-circle"></i></button>
+    <span class="button-span">
+        <i class="fas fa-plus-circle"></i></span></button>
+
+<button class="btn btn-sm refresh-btn mb-4" title="Refresh data" onclick="refreshData()">
+    <i class="fas fa-redo-alt"></i></button>
 
 <div class="ml-2 mr-2">
     <img src="assets/logo.png" class="mx-auto d-block main-logo home-logo mb-2 mt-3">
@@ -24,7 +28,8 @@
                    placeholder="Search by date" id="search-query" onkeyup="filterData()"/>
 
             <span class="input-group-btn">
-                        <select class="btn btn-info btn-lg detected-lang" id="search-filter" onchange="changeFilterColumn()">
+                        <select class="btn btn-info btn-lg detected-lang" id="search-filter"
+                                onchange="changeFilterColumn()">
                           <option value="date">date</option>
                           <option value="client">client</option>
                             <option value="project">project</option>
@@ -55,24 +60,11 @@
         </tr>
         </thead>
         <tbody id="data-table-body">
-<!--        <tr tabindex="0" class="text-center" data-toggle="popover" data-placement="left" data-trigger="focus"-->
-<!--            data-html="true"-->
-<!--            data-content='-->
-<!--        <div class="btn-group" role="group">-->
-<!--          <button type="button" class="btn btn-success btn-sm" onclick="editRow(1)"><i class="fas fa-edit"></i></button>-->
-<!--          <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(1)"><i class="fas fa-trash-alt"></i></button>-->
-<!--        </div>-->
-<!--        '>-->
-<!--            <td>2/8/2020</td>-->
-<!--            <td>Sierra</td>-->
-<!--            <td>Everest</td>-->
-<!--            <td>Credit</td>-->
-<!--            <td>Description</td>-->
-<!--            <td>Amount</td>-->
-<!--            <td>Pasan</td>-->
-<!--        </tr>-->
         <tr class="text-center" id="no-data-available-row">
             <td colspan="7">No data Available!</td>
+        </tr>
+        <tr class="text-center" id="loading-row">
+            <td colspan="7"><i class="fas fa-spinner animate-rotate"></i>&nbsp;&nbsp;Loading data. Please wait...</td>
         </tr>
         </tbody>
     </table>
@@ -91,7 +83,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <!--                    <label for="add-date" class="col-form-label-sm">Date</label>-->
-                    <input type="date" class="form-control form-control-sm" id="add-date" placeholder="Date">
+                    <input type="text" class="form-control form-control-sm" id="add-date" placeholder="Date">
                 </div>
                 <div class="form-group">
                     <!--                    <label for="add-client" class="col-form-label-sm">Client</label>-->
@@ -102,13 +94,17 @@
                     <input type="text" class="form-control form-control-sm" id="add-project" placeholder="Project">
                 </div>
                 <div class="form-group">
+                    <!--                    <label for="add-project" class="col-form-label-sm">Project</label>-->
+                    <input type="text" class="form-control form-control-sm" id="add-category" placeholder="Category">
+                </div>
+                <div class="form-group">
                     <!--                    <label for="add-description" class="col-form-label-sm">Description</label>-->
                     <textarea class="form-control form-control-sm" id="add-description"
                               placeholder="Description"></textarea>
                 </div>
                 <div class="form-group">
                     <!--                    <label for="add-amount" class="col-form-label-sm">Amount</label>-->
-                    <input type="number" class="form-control form-control-sm" id="add-amount" placeholder="Amount"
+                    <input type="number" class="form-control form-control-sm" id="add-amount" placeholder="Amount(Rs.)"
                            min="0">
                 </div>
                 <div class="form-group">
@@ -117,8 +113,119 @@
                 </div>
 
                 <div class="btn-group btn-group-sm float-right" role="group">
-                    <button type="button" class="btn btn-success btn-sm" onclick="saveData()"><i class="fas fa-save mr-1"></i>Save</button>
-                    <button type="button" class="btn btn-danger btn-sm"><i class="fas fa-times-circle mr-1"></i>Reset
+                    <button type="button" class="btn btn-success btn-sm" id="save-btn" onclick="saveData()">
+                        <div id="save-btn-cont-general"><i class="fas fa-save mr-1"></i>Save</div>
+                        <div class="animated-content" id="save-btn-cont-animated"><i
+                                class="fas fa-spinner animate-rotate"></i>&nbsp;Wait...
+                        </div>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="resetData('add')"><i
+                            class="fas fa-times-circle mr-1"></i>Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewRowModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="view-model-title">View Record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-id" placeholder="-"
+                           disabled="true" readonly hidden>
+                </div>
+                <div class="form-group row">
+                    <label for="view-date" class="col-form-label-sm col-md-3 text-right">Date</label>
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-date" placeholder="-"
+                           readonly>
+                </div>
+                <div class="form-group row">
+                    <label for="view-client" class="col-form-label-sm col-md-3 text-right">Client</label>
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-client"
+                           placeholder="-" readonly>
+                </div>
+                <div class="form-group row">
+                    <label for="view-project" class="col-form-label-sm col-md-3 text-right">Project</label>
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-project"
+                           placeholder="-" readonly>
+                </div>
+                <div class="form-group row">
+                    <label for="view-project" class="col-form-label-sm col-md-3 text-right">Category</label>
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-category"
+                           placeholder="-"  readonly>
+                </div>
+                <div class="form-group row">
+                    <label for="view-description" class="col-form-label-sm col-md-3 text-right">Description</label>
+                    <textarea class="form-control form-control-sm col-md-8" id="view-description"
+                              placeholder="-" readonly></textarea>
+                </div>
+                <div class="form-group row">
+                    <label for="view-amount" class="col-form-label-sm col-md-3 text-right">Amount(Rs.)</label>
+                    <input type="number" class="form-control form-control-sm col-md-8" id="view-amount"
+                           placeholder="-" readonly
+                           min="0">
+                </div>
+                <div class="form-group row">
+                    <label for="view-person" class="col-form-label-sm col-md-3 text-right">Person</label>
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-person"
+                           placeholder="-" readonly>
+                </div>
+                <hr/>
+                <div id="system-gen-data-section">
+                <span class="badge badge-pill badge-secondary btn btn-sm text-center d-block w-75 mx-auto mb-3 " type="button" data-toggle="collapse" data-target="#systemGenData" aria-expanded="false" aria-controls="systemGenData">
+                    Toggle System Generated Data
+                </span>
+                <hr/>
+                <div class="collapse" id="systemGenData">
+                    <div class="form-group row">
+                        <label for="view-created-by" class="col-form-label-sm col-md-3 text-right">Created By</label>
+                        <input type="text" class="form-control form-control-sm col-md-8" id="view-created-by"
+                               placeholder="-" disabled="true" readonly>
+                    </div>
+                    <div class="form-group row">
+                        <label for="view-created-on" class="col-form-label-sm col-md-3 text-right">Created On</label>
+                        <input type="text" class="form-control form-control-sm col-md-8" id="view-created-on"
+                               placeholder="-" disabled="true" readonly>
+                    </div>
+                    <div class="form-group row">
+                        <label for="view-updated-by" class="col-form-label-sm col-md-3 text-right">Updated By</label>
+                        <input type="text" class="form-control form-control-sm col-md-8" id="view-updated-by"
+                               placeholder="-" disabled="true" readonly>
+                    </div>
+                    <div class="form-group row">
+                        <label for="view-updated-on" class="col-form-label-sm col-md-3 text-right">Updated On</label>
+                        <input type="text" class="form-control form-control-sm col-md-8" id="view-updated-on"
+                               placeholder="-" disabled="true" readonly>
+                    </div>
+                </div>
+                </div>
+                <div class="btn-group  btn-group-sm float-right pr-4" id="view-component-btn-group" role="group">
+                    <button type="button" class="btn btn-danger btn-sm" id="delete-btn" onclick="deleteData()">
+                        <div id="delete-btn-cont-general"><i class="fas fa-trash-alt"></i>&nbsp;Delete</div>
+                        <div class="animated-content" id="delete-btn-cont-animated"><i
+                                class="fas fa-spinner animate-rotate"></i>&nbsp;Wait...
+                        </div>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleEditViewMode('edit')"><i class="fas fa-edit"></i>&nbsp;Update
+                    </button>
+                </div>
+                <div class="btn-group btn-group-sm float-right pr-4" id="update-component-btn-group" role="group">
+                    <button type="button" class="btn btn-success btn-sm" id="update-btn" onclick="updateSave()">
+                        <div id="update-btn-cont-general"><i class="fas fa-save mr-1"></i>Save</div>
+                        <div class="animated-content" id="update-btn-cont-animated"><i
+                                class="fas fa-spinner animate-rotate"></i>&nbsp;Wait...
+                        </div>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleEditViewMode('view')"><i
+                            class="fas fa-times-circle mr-1"></i>&nbsp;Cancel
                     </button>
                 </div>
             </div>
