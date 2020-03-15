@@ -1,4 +1,4 @@
-const END_POINT_URL = "https://script.google.com/macros/s/AKfycbwPP5zBQrAUUPuoMNuGk-W-rvFloILZnz2L6NPUuZ8_6r5Y8kO3/exec?action=";
+const END_POINT_URL = "https://script.google.com/macros/s/AKfycbypGibpueLiavoCK79faCf_NcUA6evXOqBBaoX44TOnrNoNk11V/exec?action=";
 function loadData() {
     $("#loading-row").show();
     $.get(END_POINT_URL+'read', function(data, status){

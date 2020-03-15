@@ -7,7 +7,7 @@ function login() {
         theme: 'modern',
         icon: 'fas fa-user-circle',
         title: 'Please Enter your user name',
-        content: '<input type="text" placeholder="User name" id="user-name" class="del-pass form-control is-valid" required style="text-align:center;">',
+        content: '<input type="text" placeholder="User name" id="user-name" class="del-pass form-control is-valid" required style="text-align:center;" autofocus>',
         draggable: true,
         animationBounce: 2.5,
         type: 'green',
@@ -16,12 +16,15 @@ function login() {
             Delete: {
                 text: 'Login',
                 btnClass: 'btn-green',
+                keys: ['enter'],
                 action: function () {
                     var username = this.$content.find('#user-name').val();
                     if (username === '') {
                         login();
                     }else{
                         global_username = username;
+                        $("#logged-user").html("Logged user: "+username+"&nbsp;<i class=\"fas fa-sign-out-alt\" id=\"log-out\"></i>\n");
+                        $("#logged-user").show();
                     }
                 },
 

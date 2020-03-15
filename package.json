@@ -2,7 +2,7 @@
   "name": "accounts-management-system",
   "version": "1.0.0",
   "description": "A minimal Electron application",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build-installer": "electron-builder",

@@ -186,3 +186,18 @@ td, th {
 #update-component-btn-group{
     display: none;
 }
+
+#logged-user {
+    position: fixed;
+    top:20px;
+    right: 20px;
+    font-size: 12px;
+    padding: 2px;
+    opacity: 1;
+    cursor: pointer;
+    display: none;
+}
+
+#logged-user:hover{
+    opacity: 0.85;
+}
