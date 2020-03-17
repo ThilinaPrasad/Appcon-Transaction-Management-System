@@ -1,5 +1,5 @@
 {
-  "name": "accounts-management-system",
+  "name": "appcon-accounts-management-system",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
@@ -8,7 +8,7 @@
     "build-installer": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/ThilinaPrasad/Appcon-Transaction-Management-System",
   "keywords": [
     "Electron",
     "quick",
@@ -32,12 +32,12 @@
     "knex": "^0.20.11"
   },
   "build": {
-    "appId": "com.sierra.ams",
+    "appId": "com.appcon.ams",
     "win": {
       "target": "nsis",
       "icon": "assets/build/icon.ico"
     },
-    "productName": "Sierra Account Management System",
+    "productName": "Appcon Account Management System",
     "asar": false
   }
 }

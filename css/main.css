@@ -12,13 +12,14 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #01579b;
+    background: rgba(0,0,0,0.7);
     cursor: pointer;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #0277bd;
+    background: rgba(0,0,0,09);
+    cursor: pointer;
 }
 
 /*LOGIN PAGE CSS*/
@@ -51,7 +52,7 @@ background-size: inherit;
 /* HOME CSS */
 .home-logo{
     margin-top: 20px;
-    width: 250px;
+    width: 600px;
 }
 
 .home-body {
@@ -62,7 +63,7 @@ background-size: inherit;
 
 .floating-btn{
     color: white;
-    background-color: #66bb6a;
+    background-color: rgba(0,0,0,1);
     border-radius: 50%;
     width: 55px;
     height: 55px;
@@ -71,10 +72,11 @@ background-size: inherit;
     right: 20px;
     cursor: pointer;
     z-index: 9999;
+    transition: transform 0.25s ease;
 }
 
 .floating-btn:hover{
-    background-color: #81c784;
+    transform: scale(1.07);
 }
 
 tbody {
@@ -135,12 +137,12 @@ td, th {
 }
 
 .search-active-col{
-    background-color: rgba(44,51,140,1);
+    background-color: rgba(224, 11, 11,1);
     color: white;
 }
 
 .search-active-data{
-    background-color: rgba(44,51,140,0.1);
+    background-color: rgba(224, 11, 11,0.05);
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
@@ -159,7 +161,7 @@ td, th {
 
 .refresh-btn{
     color: white;
-    background-color: darkgray;
+    background-color: rgba(224, 11, 11,1);
     border-radius: 50%;
     width: 35px;
     height: 35px;
@@ -168,10 +170,11 @@ td, th {
     right: 30px;
     cursor: pointer;
     z-index: 9999;
+    transition: transform 0.25s ease;
 }
 
 .refresh-btn:hover{
-    background-color:lightgray;
+    transform: scale(1.07);
 }
 
 #no-data-available-row, #loading-row{
