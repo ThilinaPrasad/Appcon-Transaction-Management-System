@@ -1,8 +1,19 @@
 const END_POINT_URL = "https://script.google.com/macros/s/AKfycbypGibpueLiavoCK79faCf_NcUA6evXOqBBaoX44TOnrNoNk11V/exec?action=";
+
+function getDateObj(dateString){
+    const dateParts = dateString.split("/");
+    const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+    return dateObject;
+}
+
+function comp(a, b) {
+    return getDateObj(a.Date) - getDateObj(b.Date);
+}
+
 function loadData() {
     $("#loading-row").show();
     $.get(END_POINT_URL+'read', function(data, status){
-        const available_data = JSON.parse(data).records;
+        const available_data = JSON.parse(data).records.sort(comp);
         if(available_data.length){
             $("#loading-row").hide();
         }else {
@@ -10,6 +21,7 @@ function loadData() {
         }
         for(let i=0; i<available_data.length; i++) {
             const html_table_row = "<tr id='row-id-"+available_data[i].Id+"' tabindex='0' class='text-center' data-toggle='modal' data-target='#viewRowModal' onclick='viewDataRow("+ JSON.stringify(available_data[i]) +")' >" +
+                "            <td class='id'>"+ (i+1) +"</td>" +
                 "            <td class='date search-active-data'>"+ available_data[i].Date +"</td>" +
                 "            <td class='client'>"+ available_data[i].Client +"</td>" +
                 "            <td class='project'>"+ available_data[i].Project +"</td>" +
@@ -21,7 +33,7 @@ function loadData() {
 
             $("#data-table-body").append(html_table_row);
         }
-
+        $("#row-no").attr("title",available_data.length+" rows");
     });
 }
 

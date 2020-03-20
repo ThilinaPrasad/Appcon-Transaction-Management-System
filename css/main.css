@@ -159,22 +159,29 @@ td, th {
     display: none;
 }
 
-.refresh-btn{
+.refresh-btn, .download-btn{
     color: white;
     background-color: rgba(224, 11, 11,1);
     border-radius: 50%;
     width: 35px;
     height: 35px;
     position: fixed;
-    bottom: 60px;
+    bottom: 105px;
     right: 30px;
     cursor: pointer;
     z-index: 9999;
     transition: transform 0.25s ease;
 }
 
-.refresh-btn:hover{
+.refresh-btn:hover, .download-btn:hover{
     transform: scale(1.07);
+    color: white;
+}
+
+.download-btn{
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
 }
 
 #no-data-available-row, #loading-row{

@@ -19,6 +19,9 @@
 <button class="btn btn-sm refresh-btn mb-4" title="Refresh data" onclick="refreshData()">
     <i class="fas fa-redo-alt"></i></button>
 
+<a href="https://docs.google.com/spreadsheets/d/1MINKs9mugzfCQSVUE0hzSE3t1-Z0qlH9-oDOt_dIHxA/export?format=xlsx" class="btn btn-sm download-btn mb-4" title="Download Excel">
+    <i class="fas fa-download"></i></a>
+
 <div class="ml-2 mr-2">
     <img src="assets/logo.png" class="mx-auto d-block main-logo home-logo mb-3 mt-4">
 <!--    <h4 class="text-center">Daily Accounts Details</h4>-->
@@ -30,7 +33,7 @@
 
             <span class="input-group-btn">
                         <select class="btn btn-info btn-lg detected-lang" id="search-filter"
-                                onchange="changeFilterColumn()">
+                                onchange="changeFilterColumnByDropdown()">
                           <option value="date">date</option>
                           <option value="client">client</option>
                             <option value="project">project</option>
@@ -50,13 +53,14 @@
     <table class="table table-hover table-light data-table mt-1">
         <thead>
         <tr class="text-center">
-            <th scope="col" class="search-by-date search-active-col">Date</th>
-            <th scope="col" class="search-by-client">Client</th>
-            <th scope="col" class="search-by-project">Project</th>
-            <th scope="col" class="search-by-category">Category</th>
-            <th scope="col" class="search-by-description">Description</th>
-            <th scope="col" class="search-by-amount">Amount(Rs.)</th>
-            <th scope="col" class="search-by-person">Person</th>
+            <th scope="col" id="row-no">#</th>
+            <th scope="col" class="search-by-date search-active-col" onclick="changeFilterColumn('date', true)" title="Click to search by Date">Date</th>
+            <th scope="col" class="search-by-client" onclick="changeFilterColumn('client', true)"  title="Click to search by Client">Client</th>
+            <th scope="col" class="search-by-project" onclick="changeFilterColumn('project', true)"  title="Click to search by Project">Project</th>
+            <th scope="col" class="search-by-category" onclick="changeFilterColumn('category', true)"  title="Click to search by Category">Category</th>
+            <th scope="col" class="search-by-description" onclick="changeFilterColumn('description', true)"  title="Click to search by Description">Description</th>
+            <th scope="col" class="search-by-amount" onclick="changeFilterColumn('amount', true)"  title="Click to search by Amount">Amount(Rs.)</th>
+            <th scope="col" class="search-by-person" onclick="changeFilterColumn('person', true)"  title="Click to search by Person">Person</th>
 
         </tr>
         </thead>

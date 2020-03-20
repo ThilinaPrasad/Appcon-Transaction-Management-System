@@ -95,38 +95,18 @@ $("#signIn").on('click', function () {
     });
 });
 
-$("#search-filter").change(function () {
-    $("#search-query").attr("placeholder", "Search by " + $("#search-filter").val());
-});
 
 loadData();
-
-// filter data
-// function filterData() {
-//     var input, filter, table, tr, td, i, txtValue;
-//     input = document.getElementById("search-query");
-//     filter = input.value.toUpperCase();
-//     table = document.getElementById("data-table-body");
-//     tr = table.getElementsByTagName("tr");
-//     for (i = 0; i < tr.length; i++) {
-//         td = tr[i].getElementsByTagName("td")[1];
-//         if (td) {
-//             txtValue = td.textContent || td.innerText;
-//             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-//                 tr[i].style.display = "";
-//             } else {
-//                 tr[i].style.display = "none";
-//             }
-//         }
-//     }
-// }
 
 function addDataModel() {
     $("#add-date").val(reformatDateToInputField((new Date()).toString()));
 }
 
-function changeFilterColumn() {
-    const column = $("#search-filter").val().toLowerCase();
+function changeFilterColumnByDropdown() {
+    changeFilterColumn($("#search-filter").val().toLowerCase());
+}
+
+function changeFilterColumn(column, changeDropdown=false) {
     $(".search-by-date").removeClass('search-active-col');
     $(".search-by-client").removeClass('search-active-col');
     $(".search-by-project").removeClass('search-active-col');
@@ -145,6 +125,12 @@ function changeFilterColumn() {
 
     $(".search-by-" + column).addClass('search-active-col');
     $("." + column).addClass('search-active-data');
+
+    $("#search-query").attr("placeholder", "Search by " + column);
+
+    if(changeDropdown) {
+        $("#search-filter").val(column);
+    }
 }
 
 function filterData() {
