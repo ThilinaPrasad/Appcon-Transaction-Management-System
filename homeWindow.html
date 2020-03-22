@@ -19,8 +19,10 @@
 <button class="btn btn-sm refresh-btn mb-4" title="Refresh data" onclick="refreshData()">
     <i class="fas fa-redo-alt"></i></button>
 
-<a href="https://docs.google.com/spreadsheets/d/1MINKs9mugzfCQSVUE0hzSE3t1-Z0qlH9-oDOt_dIHxA/export?format=xlsx" class="btn btn-sm download-btn mb-4" title="Download Excel">
-    <i class="fas fa-download"></i></a>
+<!--<a href="https://docs.google.com/spreadsheets/d/1MINKs9mugzfCQSVUE0hzSE3t1-Z0qlH9-oDOt_dIHxA/export?format=xlsx" class="btn btn-sm download-btn mb-4" title="Download Excel">-->
+<!--    <i class="fas fa-download"></i></a>-->
+<button class="btn btn-sm download-btn mb-4" title="Download data" onclick="exportTableToExcel('data-table')">
+    <i class="fas fa-download"></i></button>
 
 <div class="ml-2 mr-2">
     <img src="assets/logo.png" class="mx-auto d-block main-logo home-logo mb-3 mt-4">
@@ -50,7 +52,7 @@
                     </span>
         </div>
     </div>
-    <table class="table table-hover table-light data-table mt-1">
+    <table class="table table-hover table-light data-table mt-1" id="data-table">
         <thead>
         <tr class="text-center">
             <th scope="col" id="row-no">#</th>
@@ -65,15 +67,22 @@
         </tr>
         </thead>
         <tbody id="data-table-body">
-        <tr class="text-center" id="no-data-available-row">
-            <td colspan="7">No data Available!</td>
+        <tr class="text-center tableexport-ignore" id="no-data-available-row">
+            <td colspan="8">No data Available!</td>
         </tr>
-        <tr class="text-center" id="loading-row">
-            <td colspan="7"><i class="fas fa-spinner animate-rotate"></i>&nbsp;&nbsp;Loading data. Please wait...</td>
+        <tr class="text-center tableexport-ignore" id="loading-row">
+            <td colspan="8"><i class="fas fa-spinner animate-rotate"></i>&nbsp;&nbsp;Loading data. Please wait...</td>
         </tr>
         </tbody>
     </table>
-
+<!--    <div>-->
+<!--        <div class="text-center" id="no-data-available-row">-->
+<!--            No data Available!-->
+<!--        </div>-->
+<!--        <div class="text-center" id="loading-row">-->
+<!--            <td><i class="fas fa-spinner animate-rotate"></i>&nbsp;&nbsp;Loading data. Please wait...</td>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 
 <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
@@ -243,12 +252,15 @@
     module = undefined;
 }
 </script>
-<script src="./js/jquery-3.4.1.slim.min.js"></script>
+<script src="./js/jquery-3.4.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="./js/popper.min.js"></script>
 <script src="./js/bootstrap/js/bootstrap.js"></script>
 <script src="./css/fontawesome/js/all.min.js"></script>
 <script src="./js/confirm-js/jquery-confirm.js"></script>
+<script src="./js/excelJS/xlsx.core.js"></script>
+<script src="./js/excelJS/FileSaver.js"></script>
+<script src="./js/excelJS/tableexport.js"></script>
 <script src="./js/db_operations.js"></script>
 <script src="./js/app.js"></script>
 <script>

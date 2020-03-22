@@ -127,17 +127,28 @@ function changeFilterColumn(column, changeDropdown=false) {
     $("." + column).addClass('search-active-data');
 
     $("#search-query").attr("placeholder", "Search by " + column);
+    $("#search-query").val('');
 
     if(changeDropdown) {
         $("#search-filter").val(column);
+    }
+    if(isDownloadEnabled) {
+        tables.remove();
+        isDownloadEnabled = false;
     }
 }
 
 function filterData() {
     const search_query = $("#search-query").val().toLowerCase();
     const column = $("#search-filter").val().toLowerCase();
+    if(isDownloadEnabled) {
+        tables.remove();
+        isDownloadEnabled = false;
+    }
     $("#data-table-body tr").filter(function () {
-        $(this).toggle($(this).find('td.' + column).text().toLowerCase().indexOf(search_query) > -1);
+        const togglingVal = $(this).find('td.' + column).text().toLowerCase().indexOf(search_query) > -1;
+        $(this).toggle(togglingVal);
+        $(this).toggleClass('tableexport-ignore',!togglingVal);
     });
     $("#no-data-available-row").hide();
     $("#loading-row").hide();
@@ -186,15 +197,18 @@ function resetData(type) {
     $("#" + type + "-category").val('');
     $("#" + type + "-description").val('');
     $("#" + type + "-amount").val('');
-    $("#" + type + "-person").val('')
+    $("#" + type + "-person").val('');
+
 }
 
 function refreshData() {
     $("#data-table-body").empty();
-    $("#data-table-body").append("<tr class=\"text-center\" id=\"loading-row\">\n" +
-        "            <td colspan=\"7\"><i class=\"fas fa-spinner animate-rotate\"></i>&nbsp;&nbsp;Loading data. Please wait...</td>\n" +
+    $("#data-table-body").append("<tr class=\"text-center tableexport-ignore\" id=\"loading-row\">\n" +
+        "            <td colspan=\"8\"><i class=\"fas fa-spinner animate-rotate\"></i>&nbsp;&nbsp;Loading data. Please wait...</td>\n" +
         "        </tr>");
     loadData();
+
+    changeFilterColumn('date', true);
 }
 
 function reformatDateToInputField(date) {
@@ -303,5 +317,29 @@ function updateSave() {
             animationBounce: 2.5,
             type: 'red'
         });
+    }
+}
+
+let isDownloadEnabled = false;
+let tables;
+function exportTableToExcel(tableID){
+    if(!isDownloadEnabled) {
+        tables = $("#" + tableID).tableExport({
+            bootstrap: false,
+            headings: true,
+            footers: true,
+            formats: ["xlsx", "xls", "csv", "txt"],
+            fileName: $("#search-query").val().length? "Appcon Daily Accounts Details(filter='"+$("#search-filter").val().toLowerCase()+"',value='"+$("#search-query").val().toLowerCase()+"')": "Appcon Daily Accounts Details(All)",
+            position: "top",
+            ignoreRows: null,
+            ignoreCols: null,
+            ignoreCSS: ".tableexport-ignore",
+            emptyCSS: ".tableexport-empty",
+            trimWhitespace: true
+        }, true);
+        isDownloadEnabled = true;
+    }else {
+        tables.remove();
+        isDownloadEnabled = false;
     }
 }

@@ -211,3 +211,43 @@ td, th {
 #logged-user:hover{
     opacity: 0.85;
 }
+
+.download-button{
+    color: white;
+    background-color: rgba(224, 11, 11,1);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    z-index: 9999;
+    transition: transform 0.25s ease;
+}
+
+.download-button:hover{
+    transform: scale(1.07);
+    color: white;
+}
+
+.xlsx, .xls, .csv, .txt {
+    position: fixed;
+    right: 80px;
+}
+
+.xlsx{
+    bottom: 200px;
+}
+.xls{
+    bottom: 150px;
+}
+
+.csv{
+    bottom: 100px;
+}
+
+.txt{
+    bottom: 50px;
+}
+
+.display-none{
+    display: none!important;
+}
