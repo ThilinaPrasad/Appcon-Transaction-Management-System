@@ -1,5 +1,5 @@
 # Appcon-Transaction-Management-System
-Desktop Application developed in Electron JS to manage daily transaction data in Appcon Lanka (pvt)Ltd.
+Desktop Application developed using Electron JS to manage daily transaction data in Appcon Lanka (pvt)Ltd.
 
 
 
