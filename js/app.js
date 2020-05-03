@@ -99,6 +99,10 @@ let isOperationsOpen = false;
 function toggleOperations(){
     if(isOperationsOpen){
         $("#operations").hide();
+        if(isDownloadEnabled){
+            tables.remove();
+            isDownloadEnabled = false;
+        }
         isOperationsOpen = false;
     }else{
         $("#operations").show();
@@ -148,7 +152,7 @@ function changeFilterColumn(column, changeDropdown=false) {
         "category": "Category",
         "description": "Description",
         "amount": "Amount",
-        "trans-type": "Ex/In",
+        "trans-type": "Trans. Type",
         "person": "Person",
     };
 

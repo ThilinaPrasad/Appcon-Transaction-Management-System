@@ -1,4 +1,4 @@
-const END_POINT_URL = "https://script.google.com/macros/s/AKfycbw0Q5O96J6IY3AEsgeJc556wJ3lGdsxmp_aCdZ1fk9v5hPIpJ4/exec?action=";
+const END_POINT_URL = "https://script.google.com/macros/s/AKfycbypGibpueLiavoCK79faCf_NcUA6evXOqBBaoX44TOnrNoNk11V/exec?action=";
 
 function getDateObj(dateString){
     const dateParts = dateString.split("/");
@@ -20,9 +20,9 @@ function loadData() {
             $("#no-data-available-row").show();
         }
         for(let i=0; i<available_data.length; i++) {
-            let trans_type_dynamic_html = "<span class=\"badge badge-danger\" title=\"Expense\">Ex</span>\n";
+            let trans_type_dynamic_html = "<span class=\"badge badge-danger\" title=\"Expense\">expense</span>\n";
             if(available_data[i].Transaction_Type === "income"){
-                trans_type_dynamic_html = "<span class=\"badge badge-success\" title=\"Income\">In</span>";
+                trans_type_dynamic_html = "<span class=\"badge badge-success\" title=\"Income\">" + available_data[i].Transaction_Type + "</span>";
             }
             const html_table_row = "<tr id='row-id-"+available_data[i].Id+"' tabindex='0' class='text-center' data-toggle='modal' data-target='#viewRowModal' onclick='viewDataRow("+ JSON.stringify(available_data[i]) +")' >" +
                 "            <td class='id'>"+ (i+1) +"</td>" +
