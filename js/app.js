@@ -95,6 +95,16 @@ $("#signIn").on('click', function () {
     });
 });
 
+let isOperationsOpen = false;
+function toggleOperations(){
+    if(isOperationsOpen){
+        $("#operations").hide();
+        isOperationsOpen = false;
+    }else{
+        $("#operations").show();
+        isOperationsOpen = true;
+    }
+}
 
 loadData();
 

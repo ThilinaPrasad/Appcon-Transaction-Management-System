@@ -1,4 +1,4 @@
-const END_POINT_URL = "https://script.google.com/macros/s/AKfycbypGibpueLiavoCK79faCf_NcUA6evXOqBBaoX44TOnrNoNk11V/exec?action=";
+const END_POINT_URL = "https://script.google.com/macros/s/AKfycbw0Q5O96J6IY3AEsgeJc556wJ3lGdsxmp_aCdZ1fk9v5hPIpJ4/exec?action=";
 
 function getDateObj(dateString){
     const dateParts = dateString.split("/");
@@ -20,14 +20,20 @@ function loadData() {
             $("#no-data-available-row").show();
         }
         for(let i=0; i<available_data.length; i++) {
+            let trans_type_dynamic_html = "<span class=\"badge badge-danger\" title=\"Expense\">Ex</span>\n";
+            if(available_data[i].Transaction_Type === "income"){
+                trans_type_dynamic_html = "<span class=\"badge badge-success\" title=\"Income\">In</span>";
+            }
             const html_table_row = "<tr id='row-id-"+available_data[i].Id+"' tabindex='0' class='text-center' data-toggle='modal' data-target='#viewRowModal' onclick='viewDataRow("+ JSON.stringify(available_data[i]) +")' >" +
                 "            <td class='id'>"+ (i+1) +"</td>" +
                 "            <td class='date search-active-data'>"+ available_data[i].Date +"</td>" +
                 "            <td class='client'>"+ available_data[i].Client +"</td>" +
+                "            <td class='project-location'>"+ available_data[i].Project_Location +"</td>" +
                 "            <td class='project'>"+ available_data[i].Project +"</td>" +
                 "            <td class='category'>"+ available_data[i].Category +"</td>" +
                 "            <td class='description'>"+ available_data[i].Description +"</td>" +
                 "            <td class='amount'>"+ parseFloat(available_data[i].Amount).toFixed(2) +"</td>\n" +
+                "            <td class='trans-type'>"+ trans_type_dynamic_html +"</td>" +
                 "            <td class='person'>"+ available_data[i].Responsible_Person +"</td>" +
                 "        </tr>";
 

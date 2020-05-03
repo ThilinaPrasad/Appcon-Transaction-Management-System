@@ -8,62 +8,85 @@
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body class="home-body">
-<span class="badge badge-pill badge-success pt-1 pb-1 pr-2 pl-2" id="logged-user" onclick="login()" title="Change user"></span>
+<span class="badge badge-pill badge-success pt-1 pb-1 pr-2 pl-2" id="logged-user" onclick="login()"
+      title="Change user"></span>
 
 <button class="floating-btn btn"
-        data-toggle="modal" data-target="#addRowModal" title="Add data row" onclick="addDataModel()"
+         title="Operations" onclick="toggleOperations()"
 >
     <span class="button-span">
-        <i class="fas fa-plus-circle"></i></span></button>
-
-<button class="btn btn-sm refresh-btn mb-4" title="Refresh data" onclick="refreshData()">
-    <i class="fas fa-redo-alt"></i></button>
-
-<!--<a href="https://docs.google.com/spreadsheets/d/1MINKs9mugzfCQSVUE0hzSE3t1-Z0qlH9-oDOt_dIHxA/export?format=xlsx" class="btn btn-sm download-btn mb-4" title="Download Excel">-->
-<!--    <i class="fas fa-download"></i></a>-->
+        <i class="fas fa-align-justify"></i></span></button>
+<div id="operations">
+<button class="btn btn-sm add-btn mb-4" data-toggle="modal" data-target="#addRowModal" title="Generate Statement" onclick="addDataModel()">
+    <i class="fas fa-plus-circle"></i></button>
 <button class="btn btn-sm download-btn mb-4" title="Download data" onclick="exportTableToExcel('data-table')">
     <i class="fas fa-download"></i></button>
-
+<button class="btn btn-sm statement-btn mb-4" title="Generate Statement" onclick="alert('Statement Btn Clicked')">
+    <i class="fas fa-file-invoice-dollar"></i></button>
+<button class="btn btn-sm refresh-btn mb-4" title="Refresh data" onclick="refreshData()">
+    <i class="fas fa-redo-alt"></i></button>
+</div>
 <div class="ml-2 mr-2">
     <img src="assets/logo.png" class="mx-auto d-block main-logo home-logo mb-3 mt-4">
-<!--    <h4 class="text-center">Daily Accounts Details</h4>-->
-
-    <div id="custom-search-input">
-        <div class="input-group col-md-12">
-            <input type="text" class="form-control input-lg"
-                   placeholder="Search by date" id="search-query" onkeyup="filterData()"/>
-
-            <span class="input-group-btn">
+    <!--    <h4 class="text-center">Daily Accounts Details</h4>-->
+    <div class="row">
+        <div id="custom-search-input" class="col-md-12">
+            <div class="input-group col-md-12">
+                <input type="text" class="form-control input-lg"
+                       placeholder="Search by Date" id="search-query" onkeyup="filterData()"/>
+                <span class="input-group-btn">
                         <select class="btn btn-info btn-lg detected-lang" id="search-filter"
                                 onchange="changeFilterColumnByDropdown()">
-                          <option value="date">date</option>
-                          <option value="client">client</option>
-                            <option value="project">project</option>
-                            <option value="category">category</option>
-                            <option value="description">description</option>
-                            <option value="amount">amount</option>
-                            <option value="person">person</option>
+                          <option value="date">Date</option>
+                          <option value="client">Client</option>
+                            <option value="project-location">Project Location</option>
+                            <option value="project">Project</option>
+                            <option value="category">Category</option>
+                            <option value="description">Description</option>
+                            <option value="amount">Amount</option>
+                            <option value="trans-type">Ex/In</option>
+                            <option value="person">Person</option>
                         </select>
                     </span>
-            <span class="input-group-btn">
+                <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="button">
                           <i class="fas fa-search"></i>
                         </button>
                     </span>
+            </div>
         </div>
     </div>
     <table class="table table-hover table-light data-table mt-1" id="data-table">
         <thead>
         <tr class="text-center">
             <th scope="col" id="row-no">#</th>
-            <th scope="col" class="search-by-date search-active-col" onclick="changeFilterColumn('date', true)" title="Click to search by Date">Date</th>
-            <th scope="col" class="search-by-client" onclick="changeFilterColumn('client', true)"  title="Click to search by Client">Client</th>
-            <th scope="col" class="search-by-project" onclick="changeFilterColumn('project', true)"  title="Click to search by Project">Project</th>
-            <th scope="col" class="search-by-category" onclick="changeFilterColumn('category', true)"  title="Click to search by Category">Category</th>
-            <th scope="col" class="search-by-description" onclick="changeFilterColumn('description', true)"  title="Click to search by Description">Description</th>
-            <th scope="col" class="search-by-amount" onclick="changeFilterColumn('amount', true)"  title="Click to search by Amount">Amount(Rs.)</th>
-            <th scope="col" class="search-by-person" onclick="changeFilterColumn('person', true)"  title="Click to search by Person">Person</th>
-
+            <th scope="col" class="search-by-date search-active-col" onclick="changeFilterColumn('date', true)"
+                title="Click to search by Date">Date
+            </th>
+            <th scope="col" class="search-by-client" onclick="changeFilterColumn('client', true)"
+                title="Click to search by Client">Client
+            </th>
+            <th scope="col" class="search-by-project-location" onclick="changeFilterColumn('project-location', true)"
+                title="Click to search by Project Location">Project Location
+            </th>
+            <th scope="col" class="search-by-project" onclick="changeFilterColumn('project', true)"
+                title="Click to search by Project">Project
+            </th>
+            <th scope="col" class="search-by-category" onclick="changeFilterColumn('category', true)"
+                title="Click to search by Category">Category
+            </th>
+            <th scope="col" class="search-by-description" onclick="changeFilterColumn('description', true)"
+                title="Click to search by Description">Description
+            </th>
+            <th scope="col" class="search-by-amount" onclick="changeFilterColumn('amount', true)"
+                title="Click to search by Amount">Amount(Rs.)
+            </th>
+            <th scope="col" class="search-by-trans-type" onclick="changeFilterColumn('trans-type', true)"
+                title="Click to search by Transaction Type">Ex/In
+            </th>
+            <th scope="col" class="search-by-person" onclick="changeFilterColumn('person', true)"
+                title="Click to search by Person">Person
+            </th>
         </tr>
         </thead>
         <tbody id="data-table-body">
@@ -75,14 +98,14 @@
         </tr>
         </tbody>
     </table>
-<!--    <div>-->
-<!--        <div class="text-center" id="no-data-available-row">-->
-<!--            No data Available!-->
-<!--        </div>-->
-<!--        <div class="text-center" id="loading-row">-->
-<!--            <td><i class="fas fa-spinner animate-rotate"></i>&nbsp;&nbsp;Loading data. Please wait...</td>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div>-->
+    <!--        <div class="text-center" id="no-data-available-row">-->
+    <!--            No data Available!-->
+    <!--        </div>-->
+    <!--        <div class="text-center" id="loading-row">-->
+    <!--            <td><i class="fas fa-spinner animate-rotate"></i>&nbsp;&nbsp;Loading data. Please wait...</td>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </div>
 
 <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
@@ -105,6 +128,11 @@
                 </div>
                 <div class="form-group">
                     <!--                    <label for="add-project" class="col-form-label-sm">Project</label>-->
+                    <input type="text" class="form-control form-control-sm" id="add-project-location"
+                           placeholder="Project Location">
+                </div>
+                <div class="form-group">
+                    <!--                    <label for="add-project" class="col-form-label-sm">Project</label>-->
                     <input type="text" class="form-control form-control-sm" id="add-project" placeholder="Project">
                 </div>
                 <div class="form-group">
@@ -120,6 +148,18 @@
                     <!--                    <label for="add-amount" class="col-form-label-sm">Amount</label>-->
                     <input type="number" class="form-control form-control-sm" id="add-amount" placeholder="Amount(Rs.)"
                            min="0">
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="add-expense" name="add-trans-type" value="expense"
+                               class="custom-control-input" checked>
+                        <label class="custom-control-label" for="add-expense">Expense</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="add-income" name="add-trans-type" value="income"
+                               class="custom-control-input">
+                        <label class="custom-control-label" for="add-income">Income</label>
+                    </div>
                 </div>
                 <div class="form-group">
                     <!--                    <label for="add-person" class="col-form-label-sm">Person</label>-->
@@ -167,6 +207,11 @@
                            placeholder="-" readonly>
                 </div>
                 <div class="form-group row">
+                    <label for="view-project" class="col-form-label-sm col-md-3 text-right">Project Location</label>
+                    <input type="text" class="form-control form-control-sm col-md-8" id="view-project-location"
+                           placeholder="-" readonly>
+                </div>
+                <div class="form-group row">
                     <label for="view-project" class="col-form-label-sm col-md-3 text-right">Project</label>
                     <input type="text" class="form-control form-control-sm col-md-8" id="view-project"
                            placeholder="-" readonly>
@@ -174,7 +219,7 @@
                 <div class="form-group row">
                     <label for="view-project" class="col-form-label-sm col-md-3 text-right">Category</label>
                     <input type="text" class="form-control form-control-sm col-md-8" id="view-category"
-                           placeholder="-"  readonly>
+                           placeholder="-" readonly>
                 </div>
                 <div class="form-group row">
                     <label for="view-description" class="col-form-label-sm col-md-3 text-right">Description</label>
@@ -187,6 +232,21 @@
                            placeholder="-" readonly
                            min="0">
                 </div>
+                <div class="form-group row mb-0">
+                    <label for="view-amount" class="col-form-label-sm col-md-3 text-right">Trans. Type</label>
+                    <div class="col-md-8 pl-0">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="view-expense" name="view-trans-type" value="expense"
+                                   class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="view-expense">Expense</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="view-income" name="view-trans-type" value="income"
+                                   class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="view-income">Income</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label for="view-person" class="col-form-label-sm col-md-3 text-right">Person</label>
                     <input type="text" class="form-control form-control-sm col-md-8" id="view-person"
@@ -194,32 +254,38 @@
                 </div>
                 <hr/>
                 <div id="system-gen-data-section">
-                <span class="badge badge-pill badge-secondary btn btn-sm text-center d-block w-75 mx-auto mb-3 " type="button" data-toggle="collapse" data-target="#systemGenData" aria-expanded="false" aria-controls="systemGenData">
+                <span class="badge badge-pill badge-secondary btn btn-sm text-center d-block w-75 mx-auto mb-3 "
+                      type="button" data-toggle="collapse" data-target="#systemGenData" aria-expanded="false"
+                      aria-controls="systemGenData">
                     Toggle System Generated Data
                 </span>
-                <hr/>
-                <div class="collapse" id="systemGenData">
-                    <div class="form-group row">
-                        <label for="view-created-by" class="col-form-label-sm col-md-3 text-right">Created By</label>
-                        <input type="text" class="form-control form-control-sm col-md-8" id="view-created-by"
-                               placeholder="-" disabled="true" readonly>
+                    <hr/>
+                    <div class="collapse" id="systemGenData">
+                        <div class="form-group row">
+                            <label for="view-created-by" class="col-form-label-sm col-md-3 text-right">Created
+                                By</label>
+                            <input type="text" class="form-control form-control-sm col-md-8" id="view-created-by"
+                                   placeholder="-" disabled="true" readonly>
+                        </div>
+                        <div class="form-group row">
+                            <label for="view-created-on" class="col-form-label-sm col-md-3 text-right">Created
+                                On</label>
+                            <input type="text" class="form-control form-control-sm col-md-8" id="view-created-on"
+                                   placeholder="-" disabled="true" readonly>
+                        </div>
+                        <div class="form-group row">
+                            <label for="view-updated-by" class="col-form-label-sm col-md-3 text-right">Updated
+                                By</label>
+                            <input type="text" class="form-control form-control-sm col-md-8" id="view-updated-by"
+                                   placeholder="-" disabled="true" readonly>
+                        </div>
+                        <div class="form-group row">
+                            <label for="view-updated-on" class="col-form-label-sm col-md-3 text-right">Updated
+                                On</label>
+                            <input type="text" class="form-control form-control-sm col-md-8" id="view-updated-on"
+                                   placeholder="-" disabled="true" readonly>
+                        </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="view-created-on" class="col-form-label-sm col-md-3 text-right">Created On</label>
-                        <input type="text" class="form-control form-control-sm col-md-8" id="view-created-on"
-                               placeholder="-" disabled="true" readonly>
-                    </div>
-                    <div class="form-group row">
-                        <label for="view-updated-by" class="col-form-label-sm col-md-3 text-right">Updated By</label>
-                        <input type="text" class="form-control form-control-sm col-md-8" id="view-updated-by"
-                               placeholder="-" disabled="true" readonly>
-                    </div>
-                    <div class="form-group row">
-                        <label for="view-updated-on" class="col-form-label-sm col-md-3 text-right">Updated On</label>
-                        <input type="text" class="form-control form-control-sm col-md-8" id="view-updated-on"
-                               placeholder="-" disabled="true" readonly>
-                    </div>
-                </div>
                 </div>
                 <div class="btn-group  btn-group-sm float-right pr-4" id="view-component-btn-group" role="group">
                     <button type="button" class="btn btn-danger btn-sm" id="delete-btn" onclick="deleteData()">
@@ -228,7 +294,8 @@
                                 class="fas fa-spinner animate-rotate"></i>&nbsp;Wait...
                         </div>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleEditViewMode('edit')"><i class="fas fa-edit"></i>&nbsp;Update
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleEditViewMode('edit')"><i
+                            class="fas fa-edit"></i>&nbsp;Update
                     </button>
                 </div>
                 <div class="btn-group btn-group-sm float-right pr-4" id="update-component-btn-group" role="group">

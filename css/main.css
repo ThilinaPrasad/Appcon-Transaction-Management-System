@@ -79,6 +79,10 @@ background-size: inherit;
     transform: scale(1.07);
 }
 
+#operations{
+    display: none;
+}
+
 tbody {
     max-height: 200px;
     overflow-y: scroll!important;
@@ -159,29 +163,38 @@ td, th {
     display: none;
 }
 
-.refresh-btn, .download-btn{
+.add-btn, .refresh-btn, .download-btn, .statement-btn{
     color: white;
     background-color: rgba(224, 11, 11,1);
     border-radius: 50%;
     width: 35px;
     height: 35px;
     position: fixed;
-    bottom: 105px;
+    bottom: 60px;
     right: 30px;
     cursor: pointer;
     z-index: 9999;
     transition: transform 0.25s ease;
 }
 
-.refresh-btn:hover, .download-btn:hover{
+.refresh-btn:hover, .download-btn:hover, .statement-btn:hover, .add-btn:hover{
     transform: scale(1.07);
     color: white;
 }
 
 .download-btn{
     position: fixed;
-    bottom: 60px;
-    right: 30px;
+    bottom: 105px;
+}
+
+.statement-btn{
+    position: fixed;
+    bottom: 150px;
+}
+
+.refresh-btn{
+    position: fixed;
+    bottom: 195px;
 }
 
 #no-data-available-row, #loading-row{
