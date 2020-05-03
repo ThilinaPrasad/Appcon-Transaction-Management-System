@@ -109,24 +109,40 @@ function changeFilterColumnByDropdown() {
 function changeFilterColumn(column, changeDropdown=false) {
     $(".search-by-date").removeClass('search-active-col');
     $(".search-by-client").removeClass('search-active-col');
+    $(".search-by-project-location").removeClass('search-active-col');
     $(".search-by-project").removeClass('search-active-col');
     $(".search-by-category").removeClass('search-active-col');
     $(".search-by-description").removeClass('search-active-col');
     $(".search-by-amount").removeClass('search-active-col');
+    $(".search-by-trans-type").removeClass('search-active-col');
     $(".search-by-person").removeClass('search-active-col');
 
     $(".date").removeClass('search-active-data');
     $(".client").removeClass('search-active-data');
+    $(".project-location").removeClass('search-active-data');
     $(".project").removeClass('search-active-data');
     $(".category").removeClass('search-active-data');
     $(".description").removeClass('search-active-data');
     $(".amount").removeClass('search-active-data');
+    $(".trans-type").removeClass('search-active-data');
     $(".person").removeClass('search-active-data');
 
     $(".search-by-" + column).addClass('search-active-col');
     $("." + column).addClass('search-active-data');
 
-    $("#search-query").attr("placeholder", "Search by " + column);
+    const replaced_values = {
+        "date": "Date",
+        "client": "Client",
+        "project-location": "Project Location",
+        "project": "Project",
+        "category": "Category",
+        "description": "Description",
+        "amount": "Amount",
+        "trans-type": "Ex/In",
+        "person": "Person",
+    };
+
+    $("#search-query").attr("placeholder", "Search by " + replaced_values[column]);
     $("#search-query").val('');
 
     if(changeDropdown) {
@@ -145,11 +161,20 @@ function filterData() {
         tables.remove();
         isDownloadEnabled = false;
     }
-    $("#data-table-body tr").filter(function () {
-        const togglingVal = $(this).find('td.' + column).text().toLowerCase().indexOf(search_query) > -1;
-        $(this).toggle(togglingVal);
-        $(this).toggleClass('tableexport-ignore',!togglingVal);
-    });
+    if(column === "trans-type"){
+        $("#data-table-body tr").filter(function () {
+            const togglingVal = $(this).find('td.' + column+ ' span').text().toLowerCase().indexOf(search_query) > -1;
+            $(this).toggle(togglingVal);
+            $(this).toggleClass('tableexport-ignore', !togglingVal);
+        });
+    }
+    else {
+        $("#data-table-body tr").filter(function () {
+            const togglingVal = $(this).find('td.' + column).text().toLowerCase().indexOf(search_query) > -1;
+            $(this).toggle(togglingVal);
+            $(this).toggleClass('tableexport-ignore', !togglingVal);
+        });
+    }
     $("#no-data-available-row").hide();
     $("#loading-row").hide();
 }
@@ -174,9 +199,9 @@ function formatDate(date, timestamp = false) {
 }
 
 function saveData() {
-    if ($("#add-date").val() || $("#add-client").val() || $("#add-project").val() || $("#add-category").val() || $("#add-description").val() || $("#add-amount").val() || $("#add-person").val()) {
-        const dataString = "Date=" + $("#add-date").val() + "&Client=" + $("#add-client").val() + "&Project=" + $("#add-project").val() + "&Category=" + $("#add-category").val() + "&Description=" + $("#add-description").val() +
-            "&Amount=" + $("#add-amount").val() + "&Responsible_person=" + $("#add-person").val() + "&created_by="+global_username+"&updated_by=";
+    if ($("#add-date").val() || $("#add-client").val() || $("#add-project-location").val() || $("#add-project").val() || $("#add-category").val() || $("#add-description").val() || $("#add-amount").val() || $("#add-person").val()) {
+        const dataString = "Date=" + $("#add-date").val() + "&Client=" + $("#add-client").val() + "&Project_location=" + $("#add-project-location").val() + "&Project=" + $("#add-project").val() + "&Category=" + $("#add-category").val() + "&Description=" + $("#add-description").val() +
+            "&Amount=" + $("#add-amount").val() + "&Transaction_type=" + $('input[name=add-trans-type]:checked').val() + "&Responsible_person=" + $("#add-person").val() + "&created_by="+global_username+"&updated_by=";
         addDataRow(dataString);
     } else {
         $.alert({
@@ -231,10 +256,16 @@ function viewDataRow(row) {
     $("#view-id").val(row.Id);
     $("#view-date").val(row.Date);
     $("#view-client").val(row.Client);
+    $("#view-project-location").val(row.Project_Location);
     $("#view-project").val(row.Project);
     $("#view-category").val(row.Category);
     $("#view-description").val(row.Description);
     $("#view-amount").val(parseFloat(row.Amount).toFixed(2));
+    if(row.Transaction_Type === 'income'){
+        $("#view-income").prop("checked", true);
+    }else {
+        $("#view-expense").prop("checked", true);
+    }
     $("#view-person").val(row.Responsible_Person);
     $("#view-created-by").val(row.created_by);
     $("#view-created-on").val(formatDate(row.created_on, true));
@@ -251,10 +282,13 @@ function toggleEditViewMode(mode) {
 
         $("#view-date").attr('readonly', true);
         $("#view-client").attr('readonly', true);
+        $("#view-project-location").attr('readonly', true);
         $("#view-project").attr('readonly', true);
         $("#view-category").attr('readonly', true);
         $("#view-description").attr('readonly', true);
         $("#view-amount").attr('readonly', true);
+        $("#view-expense").attr('disabled', true);
+        $("#view-income").attr('disabled', true);
         $("#view-person").attr('readonly', true);
     } else if (mode === 'edit') {
         $("#view-component-btn-group").hide();
@@ -264,10 +298,13 @@ function toggleEditViewMode(mode) {
 
         $("#view-date").attr('readonly', false);
         $("#view-client").attr('readonly', false);
+        $("#view-project-location").attr('readonly', false);
         $("#view-project").attr('readonly', false);
         $("#view-category").attr('readonly', false);
         $("#view-description").attr('readonly', false);
         $("#view-amount").attr('readonly', false);
+        $("#view-expense").attr('disabled', false);
+        $("#view-income").attr('disabled', false);
         $("#view-person").attr('readonly', false);
     }
 }
@@ -304,9 +341,10 @@ function deleteData() {
 }
 
 function updateSave() {
-    if ($("#view-date").val() || $("#view-client").val() || $("#view-project").val() || $("#view-category").val() || $("#view-description").val() || $("#view-amount").val() || $("#view-person").val()) {
-        const dataString = "Id=" + $("#view-id").val() + "&Date=" + $("#view-date").val() + "&Client=" + $("#view-client").val() + "&Project=" + $("#view-project").val() + "&Category=" + $("#view-category").val() + "&Description=" + $("#view-description").val() +
-            "&Amount=" + $("#view-amount").val() + "&Responsible_person=" + $("#view-person").val() + "&updated_by="+global_username;
+    console.log($("#view-project-location").val());
+    if ($("#view-date").val() || $("#view-client").val() || $("#view-project-location").val() || $("#view-project").val() || $("#view-category").val() || $("#view-description").val() || $("#view-amount").val() || $("#view-person").val()) {
+        const dataString = "Id=" + $("#view-id").val() + "&Date=" + $("#view-date").val() + "&Client=" + $("#view-client").val()+ "&Project_location=" + $("#view-project-location").val() + "&Project=" + $("#view-project").val() + "&Category=" + $("#view-category").val() + "&Description=" + $("#view-description").val() +
+            "&Amount=" + $("#view-amount").val() + "&Transaction_type=" + $('input[name=view-trans-type]:checked').val() + "&Responsible_person=" + $("#view-person").val() + "&updated_by="+global_username;
         updateDataRow(dataString);
     } else {
         $.alert({
