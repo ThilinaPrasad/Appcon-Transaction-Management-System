@@ -1,6 +1,5 @@
 // const sqlite3 = require('sqlite3').verbose();
 // const db = new sqlite3.Database('DB/DB.db');
-let global_username = "system_user"
 // login
 function login() {
     $.confirm({
@@ -23,6 +22,7 @@ function login() {
                         login();
                     }else{
                         global_username = username;
+                        sessionStorage.setItem("userName",username);
                         $("#logged-user").html("Logged user: "+username+"&nbsp;<i class=\"fas fa-sign-out-alt\" id=\"log-out\"></i>\n");
                         $("#logged-user").show();
                     }
@@ -33,7 +33,6 @@ function login() {
         });
 }
 
-login();
 // Internet Connection checker
 function checkNetConnection() {
     var xhr = new XMLHttpRequest();
@@ -71,10 +70,10 @@ function connChecker() {
                 }
             }
         });
+    }else{
+        return true;
     }
 }
-
-connChecker();
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -109,8 +108,6 @@ function toggleOperations(){
         isOperationsOpen = true;
     }
 }
-
-loadData();
 
 function addDataModel() {
     $("#add-date").val(reformatDateToInputField((new Date()).toString()));
@@ -245,6 +242,8 @@ function refreshData() {
     $("#data-table-body").append("<tr class=\"text-center tableexport-ignore\" id=\"loading-row\">\n" +
         "            <td colspan=\"8\"><i class=\"fas fa-spinner animate-rotate\"></i>&nbsp;&nbsp;Loading data. Please wait...</td>\n" +
         "        </tr>");
+    localStorage.removeItem("loadedData");
+    loadedData = null;
     loadData();
 
     changeFilterColumn('date', true);
@@ -394,4 +393,21 @@ function exportTableToExcel(tableID){
         tables.remove();
         isDownloadEnabled = false;
     }
+}
+
+// Gen statement functions
+let statementFilter = {type:"complete",client: "All",projectLocation: "All",project: "All"};
+function statementTypeFilter(){
+    const type = $("#statement-type").val();
+    console.log(type);
+    if(type === 'complete'){
+        $("#statement-client-wrapper").hide();
+    }else if(type === "filtered") {
+        $("#statement-client-wrapper").show();
+    }
+    statementFilter.type = type;
+}
+
+function generateStatement(){
+    statementPage(JSON.stringify(statementFilter));
 }

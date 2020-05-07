@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body class="home-body">
-<span class="badge badge-pill badge-success pt-1 pb-1 pr-2 pl-2" id="logged-user" onclick="login()"
+<span class="badge badge-pill badge-success  pt-2 pb-2 pr-4 pl-4" id="logged-user" onclick="login()"
       title="Change user"></span>
 
 <button class="floating-btn btn"
@@ -21,9 +21,9 @@
     <i class="fas fa-plus-circle"></i></button>
 <button class="btn btn-sm download-btn mb-4" title="Download data" onclick="exportTableToExcel('data-table')">
     <i class="fas fa-download"></i></button>
-<button class="btn btn-sm statement-btn mb-4" title="Generate Statement" onclick="alert('Statement Btn Clicked')">
+<button class="btn btn-sm statement-btn mb-4"  data-toggle="modal" data-target="#statementModal" title="Generate Statement">
     <i class="fas fa-file-invoice-dollar"></i></button>
-<button class="btn btn-sm refresh-btn mb-4" title="Refresh data" onclick="refreshData()">
+<button class="btn btn-sm refresh-btn mb-4" title="Fetch data" onclick="refreshData()">
     <i class="fas fa-redo-alt"></i></button>
 </div>
 <div class="ml-2 mr-2">
@@ -59,7 +59,7 @@
     <table class="table table-hover table-light data-table mt-1" id="data-table">
         <thead>
         <tr class="text-center">
-            <th scope="col" id="row-no">#</th>
+<!--            <th scope="col" id="row-no">#</th>-->
             <th scope="col" class="search-by-date search-active-col" onclick="changeFilterColumn('date', true)"
                 title="Click to search by Date">Date
             </th>
@@ -314,6 +314,60 @@
     </div>
 </div>
 
+<div class="modal fade" id="statementModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statement-model-title">Generate Income Statement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="view-date" class="col-form-label-sm col-md-4 text-right">Statement Type</label>
+                    <select class="form-control form-control-sm col-md-7" id="statement-type" onchange="statementTypeFilter()">
+                        <option value="complete">Complete</option>
+                        <option value="filtered">Filtered</option>
+
+                    </select>
+                </div>
+                <div class="form-group row" id="statement-client-wrapper" style="display: none;">
+                    <label for="view-date" class="col-form-label-sm col-md-4 text-right">Client</label>
+                    <select class="form-control form-control-sm col-md-7" id="statement-client">
+                        <option hidden>Select Client</option>
+                        <option value="all">All</option>
+                        <option>Sierra</option>
+
+                    </select>
+                </div>
+                <div class="form-group row" style="display: none;">
+                    <label for="view-date" class="col-form-label-sm col-md-4 text-right">Project Location</label>
+                    <select class="form-control form-control-sm col-md-7" id="statement-project-location">
+                        <option hidden>Select Project Location</option>
+                        <option value="all">All</option>
+                        <option>Sierra</option>
+
+                    </select>
+                </div>
+                <div class="form-group row" style="display: none;">
+                    <label for="view-date" class="col-form-label-sm col-md-4 text-right">Project</label>
+                    <select class="form-control form-control-sm col-md-7" id="statement-project">
+                        <option hidden>Select Project</option>
+                        <option value="all">All</option>
+                        <option>Sierra</option>
+
+                    </select>
+                </div>
+                <button type="button" class="btn btn-success btn-sm mx-auto d-block" onclick="generateStatement()"><i
+                        class="fas fa-hammer mr-1"></i>Generate Statement
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>if (typeof module === 'object') {
     window.module = module;
     module = undefined;
@@ -328,8 +382,11 @@
 <script src="./js/excelJS/xlsx.core.js"></script>
 <script src="./js/excelJS/FileSaver.js"></script>
 <script src="./js/excelJS/tableexport.js"></script>
+<script src="./js/variables.js"></script>
 <script src="./js/db_operations.js"></script>
 <script src="./js/app.js"></script>
+<script src="./js/routings.js"></script>
+
 <script>
     const {ipcRenderer} = require('electron');
     ipcRenderer.send('toggleAddRowModal');

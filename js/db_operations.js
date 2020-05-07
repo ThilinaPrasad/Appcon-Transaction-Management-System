@@ -9,41 +9,72 @@ function getDateObj(dateString){
 function comp(a, b) {
     return getDateObj(a.Date) - getDateObj(b.Date);
 }
-
 function loadData() {
-    $("#loading-row").show();
-    $.get(END_POINT_URL+'read', function(data, status){
-        const available_data = JSON.parse(data).records.sort(comp);
-        if(available_data.length){
-            $("#loading-row").hide();
-        }else {
-            $("#no-data-available-row").show();
-        }
-        for(let i=0; i<available_data.length; i++) {
-            let trans_type_dynamic_html = "<span class=\"badge badge-danger\" title=\"Expense\">expense</span>\n";
-            if(available_data[i].Transaction_Type === "income"){
-                trans_type_dynamic_html = "<span class=\"badge badge-success\" title=\"Income\">" + available_data[i].Transaction_Type + "</span>";
-            }
-            const html_table_row = "<tr id='row-id-"+available_data[i].Id+"' tabindex='0' class='text-center' data-toggle='modal' data-target='#viewRowModal' onclick='viewDataRow("+ JSON.stringify(available_data[i]) +")' >" +
-                "            <td class='id'>"+ (i+1) +"</td>" +
-                "            <td class='date search-active-data'>"+ available_data[i].Date +"</td>" +
-                "            <td class='client'>"+ available_data[i].Client +"</td>" +
-                "            <td class='project-location'>"+ available_data[i].Project_Location +"</td>" +
-                "            <td class='project'>"+ available_data[i].Project +"</td>" +
-                "            <td class='category'>"+ available_data[i].Category +"</td>" +
-                "            <td class='description'>"+ available_data[i].Description +"</td>" +
-                "            <td class='amount'>"+ parseFloat(available_data[i].Amount).toFixed(2) +"</td>\n" +
-                "            <td class='trans-type'>"+ trans_type_dynamic_html +"</td>" +
-                "            <td class='person'>"+ available_data[i].Responsible_Person +"</td>" +
-                "        </tr>";
+        $("#loading-row").show();
+        $.get(END_POINT_URL + 'read', function (data, status) {
+            localStorage.setItem("loadedData", data);
+            // if(available_data.length){
+            //     $("#loading-row").hide();
+            // }else {
+            //     $("#no-data-available-row").show();
+            // }
+            // for(let i=0; i<available_data.length; i++) {
+            //     let trans_type_dynamic_html = "<span class=\"badge badge-danger\" title=\"Expense\">expense</span>\n";
+            //     if(available_data[i].Transaction_Type === "income"){
+            //         trans_type_dynamic_html = "<span class=\"badge badge-success\" title=\"Income\">" + available_data[i].Transaction_Type + "</span>";
+            //     }
+            //     const html_table_row = "<tr id='row-id-"+available_data[i].Id+"' tabindex='0' class='text-center' data-toggle='modal' data-target='#viewRowModal' onclick='viewDataRow("+ JSON.stringify(available_data[i]) +")' >" +
+            //         // "            <td class='id'>"+ (i+1) +"</td>" +
+            //         "            <td class='date search-active-data'>"+ available_data[i].Date +"</td>" +
+            //         "            <td class='client'>"+ available_data[i].Client +"</td>" +
+            //         "            <td class='project-location'>"+ available_data[i].Project_Location +"</td>" +
+            //         "            <td class='project'>"+ available_data[i].Project +"</td>" +
+            //         "            <td class='category'>"+ available_data[i].Category +"</td>" +
+            //         "            <td class='description'>"+ available_data[i].Description +"</td>" +
+            //         "            <td class='amount'>"+ parseFloat(available_data[i].Amount).toFixed(2) +"</td>\n" +
+            //         "            <td class='trans-type'>"+ trans_type_dynamic_html +"</td>" +
+            //         "            <td class='person'>"+ available_data[i].Responsible_Person +"</td>" +
+            //         "        </tr>";
+            //
+            //     $("#data-table-body").append(html_table_row);
+            // }
+            // $("#row-no").attr("title",available_data.length+" rows");
+            bindDataToUI(data);
+        });
+}
 
-            $("#data-table-body").append(html_table_row);
+function bindDataToUI(data){
+    const available_data = JSON.parse(data).records.sort(comp);
+    if(available_data.length){
+        $("#loading-row").hide();
+    }else {
+        $("#no-data-available-row").show();
+    }
+    for(let i=0; i<available_data.length; i++) {
+        let trans_type_dynamic_html = "<span class=\"badge badge-danger\" title=\"Expense\">expense</span>\n";
+        if(available_data[i].Transaction_Type === "income"){
+            trans_type_dynamic_html = "<span class=\"badge badge-success\" title=\"Income\">" + available_data[i].Transaction_Type + "</span>";
         }
-        $("#row-no").attr("title",available_data.length+" rows");
-    });
+        const html_table_row = "<tr id='row-id-"+available_data[i].Id+"' tabindex='0' class='text-center' data-toggle='modal' data-target='#viewRowModal' onclick='viewDataRow("+ JSON.stringify(available_data[i]) +")' >" +
+            // "            <td class='id'>"+ (i+1) +"</td>" +
+            "            <td class='date search-active-data'>"+ available_data[i].Date +"</td>" +
+            "            <td class='client'>"+ available_data[i].Client +"</td>" +
+            "            <td class='project-location'>"+ available_data[i].Project_Location +"</td>" +
+            "            <td class='project'>"+ available_data[i].Project +"</td>" +
+            "            <td class='category'>"+ available_data[i].Category +"</td>" +
+            "            <td class='description'>"+ available_data[i].Description +"</td>" +
+            "            <td class='amount'>"+ parseFloat(available_data[i].Amount).toFixed(2) +"</td>\n" +
+            "            <td class='trans-type'>"+ trans_type_dynamic_html +"</td>" +
+            "            <td class='person'>"+ available_data[i].Responsible_Person +"</td>" +
+            "        </tr>";
+
+        $("#data-table-body").append(html_table_row);
+    }
+    $("#row-no").attr("title",available_data.length+" rows");
 }
 
 function addDataRow(dataString) {
+    connChecker();
     $("#save-btn-cont-general").hide();
     $("#save-btn-cont-animated").show();
     $("#save-btn").attr('disabled', true);
@@ -76,6 +107,7 @@ function addDataRow(dataString) {
 }
 
 function deleteRow(id) {
+    connChecker();
     $("#delete-btn-cont-general").hide();
     $("#delete-btn-cont-animated").show();
     $("#delete-btn").attr('disabled', true);
@@ -109,6 +141,7 @@ function deleteRow(id) {
 }
 
 function updateDataRow(dataString) {
+    connChecker();
     $("#update-btn-cont-general").hide();
     $("#update-btn-cont-animated").show();
     $("#update-btn").attr('disabled', true);
