@@ -167,8 +167,8 @@ td, th {
 .add-btn, .refresh-btn, .download-btn, .statement-btn{
     color: white;
     background-color: rgba(224, 11, 11,1);
-    border-radius: 50%;
-    width: 35px;
+    border-radius: 18px;
+    width: auto;
     height: 35px;
     position: fixed;
     bottom: 60px;
@@ -183,12 +183,18 @@ td, th {
     color: white;
 }
 
+.add-btn {
+    background-color: #28a745;
+}
+
 .download-btn{
+    background-color: #3498db;
     position: fixed;
     bottom: 105px;
 }
 
 .statement-btn{
+    background-color: #ffc107;
     position: fixed;
     bottom: 150px;
 }
@@ -238,7 +244,7 @@ td, th {
 
 .download-button{
     color: white;
-    background-color: rgba(224, 11, 11,1);
+    background-color: #3498db;
     border-radius: 50%;
     width: 45px;
     height: 45px;
@@ -254,7 +260,7 @@ td, th {
 
 .xlsx, .xls, .csv, .txt {
     position: fixed;
-    right: 80px;
+    right: 140px;
 }
 
 .xlsx{
