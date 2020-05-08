@@ -401,6 +401,7 @@ let available_data = JSON.parse(loadedData).records.sort(comp);
 let filtered_data_level_1 = [];
 let filtered_data_level_2 = [];
 let filtered_data_level_3 = [];
+
 function filterFromJsonArray(array,property,value){
     if (value === 'all') {
         return array;
@@ -414,9 +415,14 @@ function changeDropDownOptions(array,name,parentId){
     let temp_setData = [];
     let temp_html = "<option value=\"all\">All</option>\n";
     for(let i=0; i<array.length; i++) {
-        if(array[i][name] !== '' && !temp_setData.includes(array[i][name])) {
-            temp_setData.push(array[i][name]);
-            temp_html += "<option value='" + array[i][name] + "'>" + array[i][name] + "</option>\n";
+        if(!temp_setData.includes(array[i][name])) {
+            if (array[i][name] === '') {
+                temp_setData.push(array[i][name]);
+                temp_html += "<option class='text-danger' value='" + array[i][name] + "'>(EMPTY)</option>\n";
+            }else {
+                temp_setData.push(array[i][name]);
+                temp_html += "<option value='" + array[i][name] + "'>" + array[i][name] + "</option>\n";
+            }
         }
     }
     $(parentId).html(temp_html);

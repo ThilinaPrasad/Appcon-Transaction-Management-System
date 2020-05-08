@@ -1,6 +1,7 @@
 const filter = JSON.parse(url.searchParams.get("filter"));
 let filtered_data = JSON.parse(loadedData).records.sort(comp);
 // filter title with input
+console.log(filter);
 $(".year").text(new Date().getFullYear());
 if(filter.type === "complete"){
     $("#complete-title").show();
