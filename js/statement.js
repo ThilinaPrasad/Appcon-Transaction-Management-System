@@ -1,11 +1,10 @@
 const filter = JSON.parse(url.searchParams.get("filter"));
-let available_data = JSON.parse(loadedData).records.sort(comp);
-
+let filtered_data = JSON.parse(loadedData).records.sort(comp);
 // filter title with input
 $(".year").text(new Date().getFullYear());
 if(filter.type === "complete"){
     $("#complete-title").show();
-    displayStatement(available_data);
+    displayStatement(filtered_data);
 } else if (filter.type === "filtered") {
     $("#statement-client").text(filter.client);
     $("#statement-project-location").text(filter.projectLocation);
@@ -13,8 +12,10 @@ if(filter.type === "complete"){
     $("#filter-title").show();
 
     // filter data here and input to below function
-
-    displayStatement(available_data);
+    filtered_data = filterFromJsonArray(filtered_data, 'Client', filter.client);
+    filtered_data = filterFromJsonArray(filtered_data, 'Project_Location', filter.projectLocation);
+    filtered_data = filterFromJsonArray(filtered_data, 'Project', filter.project);
+    displayStatement(filtered_data);
 }
 
 

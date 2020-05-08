@@ -318,7 +318,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="statement-model-title">Generate Income Statement</h5>
+                <h5 class="modal-title" id="statement-model-title">Generate Profit/Loss Statement</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -326,7 +326,7 @@
             <div class="modal-body">
                 <div class="form-group row">
                     <label for="view-date" class="col-form-label-sm col-md-4 text-right">Statement Type</label>
-                    <select class="form-control form-control-sm col-md-7" id="statement-type" onchange="statementTypeFilter()">
+                    <select class="form-control form-control-sm col-md-7" id="statement-type" onchange="changeTypeDropDown();">
                         <option value="complete">Complete</option>
                         <option value="filtered">Filtered</option>
 
@@ -334,29 +334,23 @@
                 </div>
                 <div class="form-group row" id="statement-client-wrapper" style="display: none;">
                     <label for="view-date" class="col-form-label-sm col-md-4 text-right">Client</label>
-                    <select class="form-control form-control-sm col-md-7" id="statement-client">
-                        <option hidden>Select Client</option>
+                    <select class="form-control form-control-sm col-md-7" id="statement-client" onchange="changeClientDropDown()">
                         <option value="all">All</option>
-                        <option>Sierra</option>
-
                     </select>
                 </div>
-                <div class="form-group row" style="display: none;">
+                <div class="form-group row" style="display: none;" id="statement-project-location-wrapper">
                     <label for="view-date" class="col-form-label-sm col-md-4 text-right">Project Location</label>
-                    <select class="form-control form-control-sm col-md-7" id="statement-project-location">
-                        <option hidden>Select Project Location</option>
+                    <select class="form-control form-control-sm col-md-7" id="statement-project-location" onchange="changeProjectLocationDropDown()">
                         <option value="all">All</option>
-                        <option>Sierra</option>
+                        <option value="project location test">Location test</option>
 
                     </select>
                 </div>
-                <div class="form-group row" style="display: none;">
+                <div class="form-group row" style="display: none;" id="statement-project-wrapper">
                     <label for="view-date" class="col-form-label-sm col-md-4 text-right">Project</label>
-                    <select class="form-control form-control-sm col-md-7" id="statement-project">
-                        <option hidden>Select Project</option>
+                    <select class="form-control form-control-sm col-md-7" id="statement-project" onchange="changeProjectDropDown()">
                         <option value="all">All</option>
-                        <option>Sierra</option>
-
+                        <option value="project test">project test</option>
                     </select>
                 </div>
                 <button type="button" class="btn btn-success btn-sm mx-auto d-block" onclick="generateStatement()"><i

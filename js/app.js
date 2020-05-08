@@ -396,17 +396,80 @@ function exportTableToExcel(tableID){
 }
 
 // Gen statement functions
-let statementFilter = {type:"complete",client: "All",projectLocation: "All",project: "All"};
-function statementTypeFilter(){
-    const type = $("#statement-type").val();
-    console.log(type);
-    if(type === 'complete'){
-        $("#statement-client-wrapper").hide();
-    }else if(type === "filtered") {
-        $("#statement-client-wrapper").show();
+let statementFilter = {type:"complete",client: "all",projectLocation: "all",project: "all"};
+let available_data = JSON.parse(loadedData).records.sort(comp);
+let filtered_data_level_1 = [];
+let filtered_data_level_2 = [];
+let filtered_data_level_3 = [];
+function filterFromJsonArray(array,property,value){
+    if (value === 'all') {
+        return array;
     }
-    statementFilter.type = type;
+    return array.filter(function(item){
+        return item[property] === value;
+    });
 }
+
+function changeDropDownOptions(array,name,parentId){
+    let temp_setData = [];
+    let temp_html = "<option value=\"all\">All</option>\n";
+    for(let i=0; i<array.length; i++) {
+        if(array[i][name] !== '' && !temp_setData.includes(array[i][name])) {
+            temp_setData.push(array[i][name]);
+            temp_html += "<option value='" + array[i][name] + "'>" + array[i][name] + "</option>\n";
+        }
+    }
+    $(parentId).html(temp_html);
+}
+
+function changeTypeDropDown(){
+    const value = $("#statement-type").val();
+    statementFilter.type = value;
+    if(value === 'filtered') {
+        filtered_data_level_1 = available_data;
+        changeDropDownOptions(filtered_data_level_1,'Client',"#statement-client");
+        $("#statement-client-wrapper").show();
+        $("#statement-project-location-wrapper").hide();
+        $("#statement-project-wrapper").hide();
+    }else {
+        $("#statement-client-wrapper").hide();
+        $("#statement-project-location-wrapper").hide();
+        $("#statement-project-wrapper").hide();
+    }
+}
+
+function changeClientDropDown(){
+    const value = $("#statement-client").val();
+    statementFilter.client = value;
+    if(value !== 'all') {
+        filtered_data_level_2 = filterFromJsonArray(filtered_data_level_1,'Client',value);
+        changeDropDownOptions(filtered_data_level_2,'Project_Location',"#statement-project-location");
+        $("#statement-project-location-wrapper").show();
+        $("#statement-project-wrapper").hide();
+    }else {
+        $("#statement-project-location-wrapper").hide();
+        $("#statement-project-wrapper").hide();
+    }
+
+}
+
+function changeProjectLocationDropDown(){
+    const value = $("#statement-project-location").val();
+    statementFilter.projectLocation = value;
+    if(value !== 'all') {
+        filtered_data_level_3 = filterFromJsonArray(filtered_data_level_2,'Project_Location',value);
+        changeDropDownOptions(filtered_data_level_3,'Project',"#statement-project");
+        $("#statement-project-wrapper").show();
+    }else {
+        $("#statement-project-wrapper").hide();
+    }
+}
+
+function changeProjectDropDown(){
+    const value = $("#statement-project").val();
+    statementFilter.project = value;
+}
+
 
 function generateStatement(){
     statementPage(JSON.stringify(statementFilter));
