@@ -29,7 +29,7 @@
   "dependencies": {
     "electron-reload": "^1.5.0",
     "@popperjs/core": "^2.1.0",
-    "knex": "^0.20.11"
+    "knex": "^2.4.0"
   },
   "build": {
     "appId": "com.appcon.ams",
